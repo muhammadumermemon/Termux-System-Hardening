@@ -1,0 +1,99 @@
+System Hardening Commands
+*Firewall Configuration*
+- `ip6tables -P INPUT DROP`
+- `ip6tables -P FORWARD DROP`
+- `ip6tables -P OUTPUT DROP`
+- `ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-request -j ACCEPT`
+- `ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-reply -j ACCEPT`
+- `ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT`
+- `ip6tables -A INPUT -j LOG --log-prefix "DROPPED INPUT"`
+
+*Secure Settings*
+- `echo "PermitRootLogin no" >> /etc/ssh/sshd_config`
+- `echo "PermitOpenDoor no" >> /etc/ssh/sshd_config`
+- `echo "IgnoreRhosts yes" >> /etc/ssh/sshd_config`
+- `echo "net.ipv4.conf.all.rp_filter=1" >> /etc/sysctl.conf`
+- `echo "net.ipv4.conf.default.rp_filter=1" >> /etc/sysctl.conf`
+- `echo "net.ipv4.conf.all.accept_source_route=0" >> /etc/sysctl.conf`
+- `echo "net.ipv4.conf.default.accept_source_route=0" >> /etc/sysctl.conf`
+
+*Vulnerability Scanning*
+- `nmap -sT -Pn 192.168.1.0/24`
+- `openvas-nvt-sync`
+- `openvas-scan 192.168.1.100`
+
+*System Hardening*
+- `sysctl -p /etc/sysctl.conf`
+- `service ssh restart`
+
+Extended list of commands for system hardening in Termux:
+
+Firewall Configuration
+- `ip6tables -P INPUT DROP`
+- `ip6tables -P FORWARD DROP`
+- `ip6tables -P OUTPUT DROP`
+- `ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-request -j ACCEPT`
+- `ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-reply -j ACCEPT`
+- `ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT`
+- `ip6tables -A INPUT -j LOG --log-prefix "DROPPED INPUT"`
+
+Secure Settings Configuration
+- `echo "PermitRootLogin no" >> /etc/ssh/sshd_config`
+- `echo "PermitOpenDoor no" >> /etc/ssh/sshd_config`
+- `echo "IgnoreRhosts yes" >> /etc/ssh/sshd_config`
+- `echo "net.ipv4.conf.all.rp_filter=1" >> /etc/sysctl.conf`
+- `echo "net.ipv4.conf.default.rp_filter=1" >> /etc/sysctl.conf`
+- `echo "net.ipv4.conf.all.accept_source_route=0" >> /etc/sysctl.conf`
+- `echo "net.ipv4.conf.default.accept_source_route=0" >> /etc/sysctl.conf`
+
+Vulnerability Scanning
+- `nmap -sT -Pn 192.168.1.0/24`
+- `openvas-nvt-sync`
+- `openvas-scan 192.168.1.100`
+- `nikto -h 192.168.1.100`
+- `sqlmap -u "(link unavailable)" --batch`
+
+System Hardening
+- `sysctl -p /etc/sysctl.conf`
+- `service ssh restart`
+- `update-rc.d ssh defaults`
+- `chmod 600 /etc/ssh/sshd_config`
+- `chown root:root /etc/ssh/sshd_config`
+
+Additional Security Measures
+- `apt-get install fail2ban`
+- `apt-get install ufw`
+- `ufw enable`
+- `ufw default deny incoming`
+- `ufw default allow outgoing`
+- `ufw allow ssh`
+- `ufw allow http`
+- `ufw allow https`
+
+Logging and Monitoring
+- `apt-get install rsyslog`
+- `apt-get install logrotate`
+- `logrotate -f /etc/logrotate.conf`
+- `rsyslogd`
+
+User Management
+- `adduser newuser`
+- `usermod -aG sudo newuser`
+- `passwd newuser`
+
+Package Management
+- `apt-get update`
+- `apt-get upgrade`
+- `apt-get autoremove`
+- `apt-get autoclean`
+
+System Updates
+- `apt-get dist-upgrade`
+- `apt-get install linux-generic`
+
+Disk Encryption
+- `apt-get install cryptsetup`
+- `cryptsetup luksFormat /dev/sda1`
+- `cryptsetup luksOpen /dev/sda1 encrypted`
+- `mkfs.ext4 /dev/mapper/encrypted`
+- `mount /dev/mapper/encrypted /mnt`
